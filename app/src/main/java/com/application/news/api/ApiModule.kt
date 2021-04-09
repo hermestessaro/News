@@ -7,29 +7,29 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@Module
+@Module(includes = [ContextModule::class])
 class ApiModule {
 
     private val BASE_URL = "https://mesa-news-api.herokuapp.com"
 
     @Provides
-    fun providesNewsApi(): NewsApi {
+    fun providesNewsApi(context: Context): NewsApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(getClient())
+            .client(getClient(context))
             .build()
             .create(NewsApi::class.java)
     }
 
     @Provides
-    fun provideNewsService(): NewsService {
-        return NewsService()
+    fun provideNewsService(context: Context): NewsService {
+        return NewsService(context)
     }
 
-    private fun getClient(): OkHttpClient {
+    private fun getClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor())
+            .addInterceptor(AuthInterceptor(context))
             .build()
     }
 }

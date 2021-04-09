@@ -25,5 +25,7 @@ data class News(
     val url: String?,
     @ColumnInfo(name="image_url")
     @SerializedName("image_url")
-    val imageUrl: String?
+    val imageUrl: String?,
+    @ColumnInfo(name="favorited")
+    var favorited: Boolean
 )

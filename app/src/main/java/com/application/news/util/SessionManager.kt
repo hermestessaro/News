@@ -1,12 +1,23 @@
 package com.application.news.util
 
-class SessionManager() {
+import android.content.Context
+import android.content.SharedPreferences
+import com.application.news.R
+
+class SessionManager(context: Context) {
+    private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
 
     companion object {
-        const val USER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MjU5LCJlbWFpbCI6ImRpbWFzLmdhYnJpZWxAenJvYmFuay5jb20uYnIifQ.a3j7sRx8FIedZCfDGLocduOYpcibfIenX7TVJjv6Sis"
+        const val USER_TOKEN = "user_token"
     }
 
-    fun fetchToken(): String {
-        return USER_TOKEN
+    fun saveAuthToken(token: String) {
+        val editor = prefs.edit()
+        editor.putString(USER_TOKEN, token)
+        editor.apply()
+    }
+
+    fun fetchToken(): String? {
+        return prefs.getString(USER_TOKEN, null)
     }
 }

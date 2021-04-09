@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.application.news.view.FeedFragment"
+        android:name="com.application.news.view.feed.FeedFragment"
         android:label="FeedFragment" />
 </navigation>

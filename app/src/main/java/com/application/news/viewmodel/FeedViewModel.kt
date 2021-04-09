@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.application.news.api.ContextModule
 import com.application.news.api.DaggerApiComponent
 import com.application.news.api.NewsService
 import com.application.news.database.NewsDatabase
@@ -25,7 +26,7 @@ class FeedViewModel(application: Application): ViewModel() {
         .build()
 
     init {
-        DaggerApiComponent.create().inject(this)
+        DaggerApiComponent.builder().contextModule(ContextModule(application)).build().inject(this)
         newsLiveData = initializedPagedListBuilder(config, application).build()
     }
 
