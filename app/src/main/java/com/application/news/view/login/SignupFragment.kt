@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.application.news.databinding.FragmentSignupBinding
 import com.application.news.viewmodel.LoginViewModel
 
 class SignupFragment: Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(LoginViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,16 +28,17 @@ class SignupFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = LoginViewModel(requireActivity().application)
 
         binding.signup.setOnClickListener {
             viewModel.validateSignup(binding.username.text.toString(), binding.password.text.toString(), binding.passwordConfirmation.text.toString())
         }
+
+        observeViewModel()
     }
 
     private fun observeViewModel(){
-        viewModel.validateError.observe(viewLifecycleOwner, {
-
+        viewModel.errorMessage.observe(viewLifecycleOwner, {
+            binding.errorText.text = it
         })
     }
 }

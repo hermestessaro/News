@@ -6,6 +6,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.application.news.R
@@ -21,7 +23,7 @@ class SignActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = LoginViewModel(application)
+        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
         setContentView(R.layout.activity_sign)
         navController = findNavController(R.id.sign_nav_host_fragment_container)
@@ -39,5 +41,6 @@ class SignActivity: AppCompatActivity() {
 
     private fun saveToken(token: String){
         SessionManager(this).saveAuthToken(token)
+
     }
 }

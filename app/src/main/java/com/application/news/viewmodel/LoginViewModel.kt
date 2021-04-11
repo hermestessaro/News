@@ -2,6 +2,7 @@ package com.application.news.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,12 +18,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LoginViewModel(application: Application): ViewModel() {
+class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     @Inject
     lateinit var newsService: NewsService
 
     val validateError = MutableLiveData<Boolean>()
+    val errorMessage = MutableLiveData<String>()
     val wrongData = MutableLiveData<Boolean>()
     val token = MutableLiveData<String>()
 
@@ -41,7 +43,7 @@ class LoginViewModel(application: Application): ViewModel() {
         if(password != confirmPass){
             validateError.postValue(true)
         }
-        val request = SignUpRequest("John Doe", email, password)
+        val request = SignUpRequest("hermo", email, password)
         CoroutineScope(Dispatchers.IO).launch {
             signup(request)
         }
@@ -53,10 +55,12 @@ class LoginViewModel(application: Application): ViewModel() {
             try {
                 if(response.isSuccessful){
                     response.body()?.let{
-                        token.postValue(it)
+                        token.postValue(it.token)
                     }
                 } else {
-                    wrongData.postValue(true)
+                    response.body()?.let{
+                        errorMessage.postValue(it.message)
+                    }
                 }
             } catch (e: Throwable){
                 e.printStackTrace()
@@ -70,8 +74,13 @@ class LoginViewModel(application: Application): ViewModel() {
             try {
                 if(response.isSuccessful){
                     response.body()?.let{
-                        token.postValue(it)
+                        token.postValue(it.token)
                     }
+                } else {
+                    response.body()?.let {
+                        errorMessage.postValue(it.message)
+                    }
+
                 }
             } catch (e: Throwable){
                 e.printStackTrace()
