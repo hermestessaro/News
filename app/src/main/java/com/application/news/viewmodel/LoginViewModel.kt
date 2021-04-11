@@ -58,8 +58,8 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
                         token.postValue(it.token)
                     }
                 } else {
-                    response.body()?.let{
-                        errorMessage.postValue(it.message)
+                    response.errorBody()?.let{
+                        errorMessage.postValue(it.string())
                     }
                 }
             } catch (e: Throwable){
@@ -77,10 +77,9 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
                         token.postValue(it.token)
                     }
                 } else {
-                    response.body()?.let {
-                        errorMessage.postValue(it.message)
+                    response.errorBody()?.let{
+                        errorMessage.postValue(it.string())
                     }
-
                 }
             } catch (e: Throwable){
                 e.printStackTrace()
