@@ -31,7 +31,8 @@ class LoginFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.login.setOnClickListener {
-            viewModel.validateLogin(binding.username.text.toString(), binding.password.text.toString())
+            viewModel.validateLogin("hermes.tessaro@gmail.com", "123")
+            //viewModel.validateLogin(binding.username.text.toString(), binding.password.text.toString())
         }
 
         binding.signupText.setOnClickListener{

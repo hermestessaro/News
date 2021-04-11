@@ -3,6 +3,7 @@ package com.application.news.viewmodel
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,9 +24,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     @Inject
     lateinit var newsService: NewsService
 
-    val validateError = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
-    val wrongData = MutableLiveData<Boolean>()
     val token = MutableLiveData<String>()
 
     init {
@@ -41,7 +40,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     fun validateSignup(email: String, password: String, confirmPass: String){
         if(password != confirmPass){
-            validateError.postValue(true)
+            errorMessage.postValue("The passwords are different")
         }
         val request = SignUpRequest("hermo", email, password)
         CoroutineScope(Dispatchers.IO).launch {

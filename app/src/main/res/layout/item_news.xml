@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="news"
             type="com.application.news.model.News" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
 
-        <TextView
-            android:id="@+id/news_title"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/news_image"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{news.title}"
+            android:layout_weight="1"
+            android:imageUrl="@{news.imageUrl}"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:paddingHorizontal="4dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{news.title}"
+                android:maxLines="2"
+                style="@style/NewsTitle"
+                tools:text="Todos estão retornando a mamaco"/>
+
+            <TextView
+                android:id="@+id/news_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{news.content}"
+                android:maxLines="2"
+                tools:text="All work and no play makes Jack a dull boy"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </layout>

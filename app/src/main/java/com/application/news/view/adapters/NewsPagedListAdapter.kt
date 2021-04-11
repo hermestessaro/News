@@ -26,9 +26,7 @@ class NewsPagedListAdapter(): PagedListAdapter<News, NewsPagedListAdapter.NewsVi
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val item = getItem(position)
-        item?.let{
-            holder.view.news = item
-        }
+        holder.view.news = item
     }
 
     class NewsViewHolder(var view: ItemNewsBinding) : RecyclerView.ViewHolder(view.root)
