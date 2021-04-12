@@ -18,7 +18,8 @@ class FeedViewModel(application: Application): ViewModel() {
     @Inject
     lateinit var newsService: NewsService
 
-    var newsLiveData: LiveData<PagedList<News>>
+    var regularNewsLiveData: LiveData<PagedList<News>>
+    var highlightedNewsLiveData: LiveData<PagedList<News>>
 
     private val config = PagedList.Config.Builder()
         .setPageSize(20)
@@ -27,15 +28,26 @@ class FeedViewModel(application: Application): ViewModel() {
 
     init {
         DaggerApiComponent.builder().contextModule(ContextModule(application)).build().inject(this)
-        newsLiveData = initializedPagedListBuilder(config, application).build()
+        regularNewsLiveData = initializedNormalPagedListBuilder(config, application).build()
+        highlightedNewsLiveData = initializedHighlightPagedListBuilder(config, application).build()
     }
 
-    private fun initializedPagedListBuilder(
+    private fun initializedNormalPagedListBuilder(
         config: PagedList.Config,
         application: Application
     ): LivePagedListBuilder<Int, News> {
         return LivePagedListBuilder(
             NewsDatabase(application).newsDao().getNews(), config)
+            .setBoundaryCallback(NewsBoundaryCallback(newsService, NewsDatabase(application))
+        )
+    }
+
+    private fun initializedHighlightPagedListBuilder(
+        config: PagedList.Config,
+        application: Application
+    ): LivePagedListBuilder<Int, News> {
+        return LivePagedListBuilder(
+            NewsDatabase(application).newsDao().getHighlightedNews(), config)
             .setBoundaryCallback(NewsBoundaryCallback(newsService, NewsDatabase(application))
         )
     }
