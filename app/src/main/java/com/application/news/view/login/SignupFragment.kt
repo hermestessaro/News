@@ -42,5 +42,13 @@ class SignupFragment: Fragment() {
         viewModel.errorMessage.observe(viewLifecycleOwner, {
             binding.errorText.text = it
         })
+
+        viewModel.loading.observe(viewLifecycleOwner, {
+            if(it){
+                binding.loading.visibility = View.VISIBLE
+            } else {
+                binding.loading.visibility = View.GONE
+            }
+        })
     }
 }

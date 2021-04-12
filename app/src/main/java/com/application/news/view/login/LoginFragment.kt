@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.application.news.databinding.FragmentLoginBinding
@@ -31,8 +30,7 @@ class LoginFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.login.setOnClickListener {
-            viewModel.validateLogin("hermes.tessaro@gmail.com", "123")
-            //viewModel.validateLogin(binding.username.text.toString(), binding.password.text.toString())
+            viewModel.validateLogin(binding.username.text.toString(), binding.password.text.toString())
         }
 
         binding.signupText.setOnClickListener{
@@ -46,6 +44,14 @@ class LoginFragment: Fragment() {
     private fun observeViewModel() {
         viewModel.errorMessage.observe(viewLifecycleOwner, {
             binding.errorText.text = it
+        })
+
+        viewModel.loading.observe(viewLifecycleOwner, {
+            if(it){
+                binding.loading.visibility = View.VISIBLE
+            } else {
+                binding.loading.visibility = View.GONE
+            }
         })
     }
 }

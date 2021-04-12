@@ -17,4 +17,6 @@ class FeedActivity : AppCompatActivity() {
         setContentView(R.layout.activity_feed)
         navController = findNavController(R.id.feed_nav_host_fragment_container)
     }
+
+    override fun onBackPressed() {}
 }

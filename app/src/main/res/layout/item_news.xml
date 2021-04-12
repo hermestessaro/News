@@ -23,9 +23,11 @@
 
         <ImageView
             android:id="@+id/news_image"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:imageUrl="@{news.imageUrl}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{news.title}"
                 style="@style/NewsTitle"
-                tools:text="Todos estão retornando a mamaco"/>
+                tools:text="Titulo exemplo"/>
 
             <TextView
                 android:id="@+id/news_description"

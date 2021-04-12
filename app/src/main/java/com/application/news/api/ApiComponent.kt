@@ -8,6 +8,6 @@ import dagger.Component
 @Component(modules = [ApiModule::class])
 interface ApiComponent {
     fun inject(service: NewsService)
-    fun inject(feedviewModel: FeedViewModel)
+    fun inject(feedViewModel: FeedViewModel)
     fun inject(loginViewModel: LoginViewModel)
 }
