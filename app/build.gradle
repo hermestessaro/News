@@ -43,7 +43,7 @@ android {
 def lifeCycleExtensionVersion = '1.1.1'
 def supportVersion = '28.0.0'
 def retrofitVersion = '2.7.1'
-def glideVersion = '4.9.0'
+def glideVersion = '4.12.0'
 def rxJavaVersion = '2.1.1'
 def roomVersion = '2.2.6'
 def navVersion = '2.3.5'
@@ -81,7 +81,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
 
     implementation "com.github.bumptech.glide:glide:$glideVersion"
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
 

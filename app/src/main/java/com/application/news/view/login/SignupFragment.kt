@@ -29,6 +29,8 @@ class SignupFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.errorMessage.postValue("")
+
         binding.signup.setOnClickListener {
             viewModel.validateSignup(binding.username.text.toString(), binding.password.text.toString(), binding.passwordConfirmation.text.toString())
         }

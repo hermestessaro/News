@@ -12,6 +12,8 @@ import com.application.news.R
 import com.application.news.databinding.ItemHighlightNewsBinding
 import com.application.news.databinding.ItemNewsBinding
 import com.application.news.model.News
+import com.application.news.util.getProgressDrawable
+import com.application.news.util.loadImage
 import com.application.news.viewmodel.FeedViewModel
 import kotlinx.android.synthetic.main.item_news.view.*
 

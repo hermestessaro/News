@@ -49,41 +49,50 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     }
 
     private suspend fun login(request: LoginRequest){
-        val response = newsService.signIn(request)
-        return withContext(Dispatchers.Main){
-            try {
-                if(response.isSuccessful){
-                    response.body()?.let{
-                        token.postValue(it.token)
+        try {
+            val response = newsService.signIn(request)
+            return withContext(Dispatchers.Main){
+                try {
+                    if(response.isSuccessful){
+                        response.body()?.let{
+                            token.postValue(it.token)
+                        }
+                    } else {
+                        response.errorBody()?.let{
+                            errorMessage.postValue(it.string())
+                        }
                     }
-                } else {
-                    response.errorBody()?.let{
-                        errorMessage.postValue(it.string())
-                    }
+                } catch (e: Throwable){
+                    e.printStackTrace()
                 }
-            } catch (e: Throwable){
-                e.printStackTrace()
             }
+        } catch (e: Throwable){
+            errorMessage.postValue("An error occurred. Check your connection")
         }
     }
 
     private suspend fun signup(request: SignUpRequest){
-        val response = newsService.signUp(request)
-        return withContext(Dispatchers.Main){
-            try {
-                if(response.isSuccessful){
-                    response.body()?.let{
-                        token.postValue(it.token)
+        try {
+            val response = newsService.signUp(request)
+            return withContext(Dispatchers.Main){
+                try {
+                    if(response.isSuccessful){
+                        response.body()?.let{
+                            token.postValue(it.token)
+                        }
+                    } else {
+                        response.errorBody()?.let{
+                            errorMessage.postValue(it.string())
+                        }
                     }
-                } else {
-                    response.errorBody()?.let{
-                        errorMessage.postValue(it.string())
-                    }
+                } catch (e: Throwable){
+                    e.printStackTrace()
                 }
-            } catch (e: Throwable){
-                e.printStackTrace()
             }
+        } catch (e: Throwable){
+            errorMessage.postValue("An error occurred. Check your connection")
         }
+
     }
 
 }
