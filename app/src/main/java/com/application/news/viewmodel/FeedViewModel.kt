@@ -1,6 +1,7 @@
 package com.application.news.viewmodel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
@@ -11,6 +12,8 @@ import com.application.news.api.NewsService
 import com.application.news.database.NewsDatabase
 import com.application.news.model.News
 import com.application.news.util.NewsBoundaryCallback
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FeedViewModel(application: Application): ViewModel() {
@@ -50,5 +53,11 @@ class FeedViewModel(application: Application): ViewModel() {
             NewsDatabase(application).newsDao().getHighlightedNews(), config)
             .setBoundaryCallback(NewsBoundaryCallback(newsService, NewsDatabase(application))
         )
+    }
+
+    fun updateFavorite(value: Boolean, newsTitle: String, context: Context){
+        GlobalScope.launch {
+            NewsDatabase(context).newsDao().updateFavorited(value, newsTitle)
+        }
     }
 }

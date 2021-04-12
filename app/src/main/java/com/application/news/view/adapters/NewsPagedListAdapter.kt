@@ -1,6 +1,8 @@
 package com.application.news.view.adapters
 
+import android.app.Application
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
@@ -10,14 +12,16 @@ import com.application.news.R
 import com.application.news.databinding.ItemHighlightNewsBinding
 import com.application.news.databinding.ItemNewsBinding
 import com.application.news.model.News
+import com.application.news.viewmodel.FeedViewModel
+import kotlinx.android.synthetic.main.item_news.view.*
 
-class NewsPagedListAdapter: PagedListAdapter<News, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<News>(){
+class NewsPagedListAdapter(val viewModel: FeedViewModel): PagedListAdapter<News, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<News>(){
     override fun areItemsTheSame(oldItem: News, newItem: News)
         = oldItem.title == oldItem.title
 
     override fun areContentsTheSame(oldItem: News, newItem: News)
         = oldItem == newItem
-}){
+}), StarClickListener{
 
     companion object {
         const val NEWS_HIGHLITED = 1
@@ -41,6 +45,8 @@ class NewsPagedListAdapter: PagedListAdapter<News, RecyclerView.ViewHolder>(obje
             (holder as HighlightedNewsViewHolder).view.news = item
         } else {
             (holder as NewsViewHolder).view.news = item
+            holder.view.listener = this
+            holder.view.position = position
         }
     }
 
@@ -50,6 +56,18 @@ class NewsPagedListAdapter: PagedListAdapter<News, RecyclerView.ViewHolder>(obje
         } else {
             NEWS_REGULAR
         }
+    }
+
+    override fun onNewsStarClicked(v: View, position: Int) {
+        getItem(position)?.let { news ->
+            if(news.favorited){
+                    viewModel.updateFavorite(false, news.title, v.context)
+            } else {
+                viewModel.updateFavorite(true, news.title, v.context)
+            }
+            notifyItemChanged(position)
+        }
+
     }
 
     class NewsViewHolder(var view: ItemNewsBinding) : RecyclerView.ViewHolder(view.root)

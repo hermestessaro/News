@@ -17,4 +17,8 @@ interface NewsDao {
 
     @Query("SELECT * FROM news WHERE highlight = 1 ORDER BY published_at DESC")
     fun getHighlightedNews(): DataSource.Factory<Int, News>
+
+    @Query("UPDATE news SET favorited = :favoritedValue WHERE news.title = :newsTitle")
+    suspend fun updateFavorited(favoritedValue: Boolean, newsTitle: String)
+
 }

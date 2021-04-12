@@ -14,14 +14,15 @@ import com.application.news.R
 import com.application.news.databinding.FragmentFeedBinding
 import com.application.news.model.News
 import com.application.news.view.adapters.NewsPagedListAdapter
+import com.application.news.view.adapters.StarClickListener
 import com.application.news.viewmodel.FeedViewModel
 
 class FeedFragment: Fragment() {
 
     private lateinit var viewModel: FeedViewModel
     private lateinit var binding: FragmentFeedBinding
-    private var normalNewsListAdapter = NewsPagedListAdapter()
-    private var highlightNewsListAdapter = NewsPagedListAdapter()
+    private lateinit var normalNewsListAdapter: NewsPagedListAdapter
+    private lateinit var highlightNewsListAdapter: NewsPagedListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +37,8 @@ class FeedFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = FeedViewModel(requireActivity().application)
+        normalNewsListAdapter = NewsPagedListAdapter(viewModel)
+        highlightNewsListAdapter = NewsPagedListAdapter(viewModel)
 
         binding.carouselList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -58,5 +61,4 @@ class FeedFragment: Fragment() {
             highlightNewsListAdapter.submitList(it)
         })
     }
-
 }
